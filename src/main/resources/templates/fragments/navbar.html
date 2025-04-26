@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="navbar">
+  <nav style="padding:10px; background:lightgrey">
+
+    <a th:href="@{/}" style="padding:10px; background-color:black; color:white; text-decoration:none; border:none; border-radius:5px;">Home</a>
+    <a th:href="@{/jobs-posted}" style="padding:10px; background-color:black; color:white; text-decoration:none; border:none; border-radius:5px;">Jobs Posted</a>
+    <a th:href="@{/available-candidates}" style="padding:10px; background-color:black; color:white; text-decoration:none; border:none; border-radius:5px;">Show Candidates</a>
+    <a th:href="@{/post-new-job}" style="padding:10px; background-color:black; color:white; text-decoration:none; border:none; border-radius:5px;">Create a New Job</a>
+    <a th:href="@{/add-candidate}" style="padding:10px; background-color:black; color:white; text-decoration:none; border:none; border-radius:5px;">Add a Candidate</a>
+
+  </nav>
+  <hr/>
+</div>
+
+</body>
+</html>
