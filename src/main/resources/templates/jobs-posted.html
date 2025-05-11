@@ -2,13 +2,119 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Jobs Posted</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .job-card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .job-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .job-company {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .job-details {
+            margin-bottom: 10px;
+        }
+        .job-details span {
+            margin-right: 15px;
+            color: #666;
+        }
+        .skills-list {
+            margin-top: 10px;
+        }
+        .skill-tag {
+            display: inline-block;
+            background-color: #e0f7fa;
+            border: 1px solid #b2ebf2;
+            border-radius: 16px;
+            padding: 3px 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .importance-indicator {
+            font-size: 12px;
+            color: #777;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .no-jobs {
+            text-align: center;
+            margin-top: 50px;
+            color: #777;
+        }
+        .post-job-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<h1>Welcome to Mini Job Portal</h1>
+<div class="container">
+    <h1>Jobs Posted</h1>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <a th:href="@{/post-new-job}" class="post-job-btn">Post a New Job</a>
+
+    <div th:if="${jobs != null && !jobs.empty}">
+        <div class="job-card" th:each="job : ${jobs}">
+            <div class="job-title" th:text="${job.title}"></div>
+            <div class="job-company" th:text="${job.employer.companyName + ' (' + job.employer.industry + ')'}"></div>
+
+            <div class="job-details">
+                <span th:text="${'Location: ' + job.location}"></span>
+                <span th:text="${'Min Experience: ' + job.minExperience + ' years'}"></span>
+                <span th:text="${'Posted on: ' + #dates.format(job.createdAt, 'dd MMM yyyy')}"></span>
+            </div>
+
+            <div class="skills-list" th:if="${job.jobSkills != null && !job.jobSkills.empty}">
+                <strong>Required Skills:</strong>
+                <div>
+                    <span class="skill-tag" th:each="jobSkill : ${job.jobSkills}">
+                        <span th:text="${jobSkill.skill.name}"></span>
+                        <span class="importance-indicator" th:text="${'(' + jobSkill.importance + ')'}"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${jobs == null || jobs.empty}" class="no-jobs">
+        <h3>No jobs have been posted yet.</h3>
+        <p>Be the first to post a job by clicking the button above!</p>
+    </div>
+</div>
 
 </body>
 </html>

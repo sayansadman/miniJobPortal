@@ -57,7 +57,7 @@ public class UserRegistrationController {
         try {
             candidateService.registerCandidate(candidateRegistrationDto);
             redirectAttributes.addFlashAttribute("successMessage", "Employer registered successfully!");
-            return "redirect:/";
+            return "redirect:/home";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error registering candidate: " + e.getMessage());
             return "redirect:/register-candidate";

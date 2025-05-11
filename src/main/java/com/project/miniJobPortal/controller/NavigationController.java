@@ -6,25 +6,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class NavigationController {
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "home";
     }
-
-    @GetMapping("/jobs-posted")
-    public String postedJobs() {
-        return "jobs-posted";
-    }
+//
+//    @GetMapping("/jobs-posted")
+//    public String postedJobs() {
+//        return "jobs-posted";
+//    }
 
     @GetMapping("/available-candidates")
     public String availableCandidates() {
         return "available-candidates";
     }
 
-    @GetMapping("/post-new-job")
-    public String postJob() {
-        return "post-new-job";
-    }
+//    @GetMapping("/post-new-job")
+//    public String postJob() {
+//        return "post-new-job";
+//    }
 
     @GetMapping("/add-candidate")
     public String addCandidate() {

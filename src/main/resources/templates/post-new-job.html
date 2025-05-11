@@ -2,13 +2,177 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Post New Job</title>
+    <style>
+        .form-container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .skills-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .skill-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .skill-name {
+            flex: 3;
+            margin-right: 10px;
+        }
+        .skill-importance {
+            flex: 1;
+        }
+        .add-skill-btn, .submit-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .remove-skill-btn {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<h1>Welcome to Mini Job Portal</h1>
+<div class="form-container">
+    <h1>Post a New Job</h1>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <form th:action="@{/post-new-job}" method="post" th:object="${jobPostingDto}" id="jobForm">
+<!--        <div class="form-group">-->
+<!--            <label for="employerId">Employer:</label>-->
+<!--            <select id="employerId" th:field="*{employerId}" required>-->
+<!--                <option value="">Select an employer</option>-->
+<!--                <option th:each="employer : ${employers}"-->
+<!--                        th:value="${employer.employerId}"-->
+<!--                        th:text="${employer.companyName + ' (' + employer.user.name + ')'}">-->
+<!--                </option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+        <div class="form-group">
+            <label for="title">Job Title:</label>
+            <input type="text" id="title" th:field="*{title}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" th:field="*{location}" required />
+        </div>
+
+        <div class="form-group">
+            <label for="minExperience">Minimum Experience (years):</label>
+            <input type="number" id="minExperience" th:field="*{minExperience}" min="0" required />
+        </div>
+
+        <div class="skills-container">
+            <h3>Required Skills</h3>
+            <p>Add the skills required for this job and their importance level (1-5)</p>
+
+            <div id="skillsContainer">
+                <!-- Initial skill row -->
+                <div class="skill-row">
+                    <div class="skill-name">
+                        <input type="text" name="skills" placeholder="Skill name" required />
+                    </div>
+                    <div class="skill-importance">
+                        <select name="importanceLevels">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-skill-btn" onclick="removeSkill(this)">Remove</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-skill-btn" onclick="addSkill()">Add Another Skill</button>
+        </div>
+
+        <button type="submit" class="submit-btn">Post Job</button>
+    </form>
+</div>
+
+<script>
+    function addSkill() {
+        const container = document.getElementById('skillsContainer');
+        const skillRow = document.createElement('div');
+        skillRow.className = 'skill-row';
+
+        skillRow.innerHTML = `
+            <div class="skill-name">
+                <input type="text" name="skills" placeholder="Skill name" required />
+            </div>
+            <div class="skill-importance">
+                <select name="importanceLevels">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <button type="button" class="remove-skill-btn" onclick="removeSkill(this)">Remove</button>
+        `;
+
+        container.appendChild(skillRow);
+    }
+
+    function removeSkill(button) {
+        const skillRow = button.parentElement;
+        // Don't remove if it's the only skill row
+        if (document.querySelectorAll('.skill-row').length > 1) {
+            skillRow.remove();
+        }
+    }
+</script>
 
 </body>
 </html>
