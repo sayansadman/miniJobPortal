@@ -31,4 +31,9 @@ public class NavigationController {
         return "add-candidate";
     }
 
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
 }

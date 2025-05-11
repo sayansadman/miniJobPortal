@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <style>
+    .container {
+      width: 50%;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .option-btn {
+      display: inline-block;
+      padding: 15px 30px;
+      margin: 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="container">
+  <h1>Register as</h1>
+
+  <div>
+    <a th:href="@{/register-employer}" class="option-btn">Employer</a>
+    <a th:href="@{/register-candidate}" class="option-btn">Candidate</a>
+  </div>
+</div>
+
+</body>
+</html>
