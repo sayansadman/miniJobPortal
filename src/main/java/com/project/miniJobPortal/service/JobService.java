@@ -22,15 +22,19 @@ public class JobService {
 
     private final JobRepository jobRepository;
     private final EmployerRepository employerRepository;
-    private final SkillRepository skillRepository;
     private final JobSkillRepository jobSkillRepository;
+    private final SkillService skillService;
 
     @Autowired
-    public JobService(JobRepository jobRepository, EmployerRepository employerRepository, SkillRepository skillRepository, JobSkillRepository jobSkillRepository) {
+    public JobService(JobRepository jobRepository, EmployerRepository employerRepository, JobSkillRepository jobSkillRepository, SkillService skillService) {
         this.jobRepository = jobRepository;
         this.employerRepository = employerRepository;
-        this.skillRepository = skillRepository;
         this.jobSkillRepository = jobSkillRepository;
+        this.skillService = skillService;
+    }
+
+    public List<Job> getAllJobs() {
+        return jobRepository.findAll();
     }
 
     @Transactional
@@ -60,15 +64,13 @@ public class JobService {
         if (jobPostingDto.getSkills() != null && !jobPostingDto.getSkills().isEmpty()) {
             for (int i = 0; i < jobPostingDto.getSkills().size(); i++) {
                 String skill = jobPostingDto.getSkills().get(i);
-                Integer importance = (i < jobPostingDto.getImportanceLevels().size())
-                        ? jobPostingDto.getImportanceLevels().get(i)
-                        : 3;
+                Integer importance = jobPostingDto.getImportanceLevels().get(i);
 
                 System.out.println("Skill: " + skill);
                 System.out.println("Importance: " + importance);
 
                 if (skill != null && !skill.trim().isEmpty()) {
-                    Skill skillObject = findOrCreateSkill(skill.trim().toLowerCase());
+                    Skill skillObject = skillService.findOrCreateSkill(skill.trim().toLowerCase());
 
                     JobSkill jobSkill = new JobSkill();
                     jobSkill.setJob(savedJob);
@@ -79,24 +81,8 @@ public class JobService {
                 }
             }
 
-
         }
 
         return savedJob;
-    }
-
-    private Skill findOrCreateSkill(String skillName) {
-        Optional<Skill> existingSkill = skillRepository.findByName(skillName);
-        if (existingSkill.isPresent()) {
-            return existingSkill.get();
-        } else {
-            Skill newSkill = new Skill();
-            newSkill.setName(skillName);
-            return skillRepository.save(newSkill);
-        }
-    }
-
-    public List<Job> getAllJobs() {
-        return jobRepository.findAll();
     }
 }

@@ -44,6 +44,41 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+        .skills-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .skill-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .skill-name {
+            flex: 3;
+            margin-right: 10px;
+        }
+        .skill-proficiency {
+            flex: 1;
+        }
+        .add-skill-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .remove-skill-btn {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -77,9 +112,69 @@
             <input type="number" id="yearsOfExperience" th:field="*{yearsOfExperience}" min="0" required />
         </div>
 
+        <div class="skills-container">
+            <h3>Your Skills</h3>
+            <p>Add your skills and proficiency level (1-5)</p>
+
+            <div id="skillsContainer">
+                <!-- Initial skill row -->
+                <div class="skill-row">
+                    <div class="skill-name">
+                        <input type="text" name="skills" placeholder="Skill name" required />
+                    </div>
+                    <div class="skill-proficiency">
+                        <select name="proficiencyLevels">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <button type="button" class="remove-skill-btn" onclick="removeSkill(this)">Remove</button>
+                </div>
+            </div>
+
+            <button type="button" class="add-skill-btn" onclick="addSkill()">Add Another Skill</button>
+        </div>
+
         <button type="submit" class="submit-btn">Register</button>
     </form>
 </div>
+
+<script>
+    function addSkill() {
+        const container = document.getElementById('skillsContainer');
+        const skillRow = document.createElement('div');
+        skillRow.className = 'skill-row';
+
+        skillRow.innerHTML = `
+            <div class="skill-name">
+                <input type="text" name="skills" placeholder="Skill name" required />
+            </div>
+            <div class="skill-proficiency">
+                <select name="proficiencyLevels">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <button type="button" class="remove-skill-btn" onclick="removeSkill(this)">Remove</button>
+        `;
+
+        container.appendChild(skillRow);
+    }
+
+    function removeSkill(button) {
+        const skillRow = button.parentElement;
+        // Don't remove if it's the only skill row
+        if (document.querySelectorAll('.skill-row').length > 1) {
+            skillRow.remove();
+        }
+    }
+</script>
 
 </body>
 </html>
