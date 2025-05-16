@@ -35,14 +35,23 @@ public class MatchController {
 
     @GetMapping
     public String getAllJobsWithMatches(Model model) {
-        List<Job> jobs = matchingService.getAllJobsWithCandidateCount();
-        
+        List<Job> jobs = jobService.getAllJobs();
         List<JobListingDto> jobListings = new ArrayList<>();
         Map<Long, Integer> candidateCounts = getCandidateCountsForJobs(jobs);
         
         for (Job job : jobs) {
             Integer matchedCandidatesCount = candidateCounts.getOrDefault(job.getJobId(), 0);
-            jobListings.add(JobListingDto.fromJob(job, matchedCandidatesCount));
+            jobListings.add(JobListingDto.builder()
+                    .jobId(job.getJobId())
+                    .title(job.getTitle())
+                    .location(job.getLocation())
+                    .minExperience(job.getMinExperience())
+                    .createdAt(job.getCreatedAt())
+                    .companyName(job.getEmployer().getCompanyName())
+                    .industry(job.getEmployer().getIndustry())
+                    .jobSkills(job.getJobSkills())
+                    .matchedCandidatesCount(matchedCandidatesCount)
+                    .build());
         }
         
         model.addAttribute("jobListings", jobListings);

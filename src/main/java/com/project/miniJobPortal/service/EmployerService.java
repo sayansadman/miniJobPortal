@@ -21,7 +21,7 @@ public class EmployerService {
     }
 
     @Transactional
-    public Employer registerEmployer(EmployerRegistrationDto employerRegistrationDto) {
+    public void registerEmployer(EmployerRegistrationDto employerRegistrationDto) {
 
         User user = new User();
         user.setName(employerRegistrationDto.getName());
@@ -35,6 +35,6 @@ public class EmployerService {
         employer.setCompanyName(employerRegistrationDto.getCompanyName());
         employer.setIndustry(employerRegistrationDto.getIndustry());
 
-        return employerRepository.save(employer);
+        employerRepository.save(employer);
     }
 }

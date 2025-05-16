@@ -18,5 +18,4 @@ public class JobPostingDto {
     private Long employerId;
 
     private List<String> skills = new ArrayList<>();
-    private List<Integer> importanceLevels = new ArrayList<>();
 }

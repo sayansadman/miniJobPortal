@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Match Details</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .job-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        .job-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .job-company {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .job-details {
+            margin-bottom: 10px;
+        }
+        .job-details span {
+            margin-right: 15px;
+            color: #666;
+        }
+        .skills-list {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .skill-tag {
+            display: inline-block;
+            background-color: #e0f7fa;
+            border: 1px solid #b2ebf2;
+            border-radius: 16px;
+            padding: 3px 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .matches-section h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .candidate-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .candidate-table th, .candidate-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .candidate-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+        .candidate-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        .score-cell {
+            font-weight: bold;
+        }
+        .high-score {
+            color: #4caf50;
+        }
+        .medium-score {
+            color: #ff9800;
+        }
+        .low-score {
+            color: #f44336;
+        }
+        .match-percentage {
+            font-weight: bold;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #2196F3;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <a th:href="@{/matches}" class="back-link">← Back to All Job Matches</a>
+
+    <div class="job-header">
+        <div class="job-title" th:text="${job.title}"></div>
+        <div class="job-company" th:text="${job.employer.companyName + ' (' + job.employer.industry + ')'}"></div>
+
+        <div class="job-details">
+            <span th:text="${'Location: ' + job.location}"></span>
+            <span th:text="${'Min Experience: ' + job.minExperience + ' year(s)'}"></span>
+            <span th:text="${'Posted on: ' + #dates.format(job.createdAt, 'dd MMM yyyy')}"></span>
+        </div>
+
+        <div class="skills-list" th:if="${job.jobSkills != null && !job.jobSkills.empty}">
+            <strong>Required Skills:</strong>
+            <div>
+                <span class="skill-tag" th:each="jobSkill : ${job.jobSkills}">
+                    <span th:text="${jobSkill.skill.name}"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="matches-section">
+        <h2 th:text="${candidateMatches.size() + ' Matching Candidates'}"></h2>
+
+        <table class="candidate-table" th:if="${candidateMatches != null && !candidateMatches.empty}">
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Location</th>
+                    <th>Experience</th>
+                    <th>Skills Match</th>
+                    <th>Skill Score</th>
+                    <th>Location Bonus</th>
+                    <th>Experience Penalty</th>
+                    <th>Total Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="match : ${candidateMatches}">
+                    <td th:text="${match.candidateName}"></td>
+                    <td th:text="${match.candidateLocation}"></td>
+                    <td th:text="${match.yearsOfExperience + ' year(s)'}"></td>
+                    <td>
+                        <span class="match-percentage" 
+                              th:text="${#numbers.formatDecimal(match.skillsMatchPercentage, 1, 1) + '%'}">
+                        </span>
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(match.skillScore, 1, 1)}"></td>
+                    <td th:text="${'+' + match.locationBonus}"></td>
+                    <td th:text="${match.experiencePenalty}"></td>
+                    <td class="score-cell"
+                        th:classappend="${match.totalScore >= 80 ? 'high-score' : (match.totalScore >= 50 ? 'medium-score' : 'low-score')}"
+                        th:text="${#numbers.formatDecimal(match.totalScore, 1, 1)}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${candidateMatches == null || candidateMatches.empty}">
+            <p>No matching candidates found for this job.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html> 

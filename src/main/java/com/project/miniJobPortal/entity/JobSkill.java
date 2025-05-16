@@ -21,8 +21,6 @@ public class JobSkill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long jobSkillId;
 
-    private Integer importance;
-
     @ManyToOne
     @JoinColumn(name = "job_id")
     private Job job;

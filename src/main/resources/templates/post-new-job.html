@@ -37,9 +37,6 @@
             flex: 3;
             margin-right: 10px;
         }
-        .skill-importance {
-            flex: 1;
-        }
         .add-skill-btn, .submit-btn {
             padding: 10px 20px;
             background-color: #007bff;
@@ -112,22 +109,13 @@
 
         <div class="skills-container">
             <h3>Required Skills</h3>
-            <p>Add the skills required for this job and their importance level (1-5)</p>
+            <p>Add the skills required for this job</p>
 
             <div id="skillsContainer">
                 <!-- Initial skill row -->
                 <div class="skill-row">
                     <div class="skill-name">
                         <input type="text" name="skills" placeholder="Skill name" required />
-                    </div>
-                    <div class="skill-importance">
-                        <select name="importanceLevels">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3" selected>3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
                     </div>
                     <button type="button" class="remove-skill-btn" onclick="removeSkill(this)">Remove</button>
                 </div>
@@ -149,15 +137,6 @@
         skillRow.innerHTML = `
             <div class="skill-name">
                 <input type="text" name="skills" placeholder="Skill name" required />
-            </div>
-            <div class="skill-importance">
-                <select name="importanceLevels">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3" selected>3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
             </div>
             <button type="button" class="remove-skill-btn" onclick="removeSkill(this)">Remove</button>
         `;

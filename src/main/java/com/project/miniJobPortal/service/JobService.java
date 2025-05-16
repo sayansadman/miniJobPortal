@@ -57,24 +57,14 @@ public class JobService {
 
         Job savedJob = jobRepository.save(job);
 
-        System.out.println("Skills: " + jobPostingDto.getSkills());
-        System.out.println("Importance Levels: " + jobPostingDto.getImportanceLevels());
-
         if (jobPostingDto.getSkills() != null && !jobPostingDto.getSkills().isEmpty()) {
-            for (int i = 0; i < jobPostingDto.getSkills().size(); i++) {
-                String skill = jobPostingDto.getSkills().get(i);
-                Integer importance = jobPostingDto.getImportanceLevels().get(i);
-
-                System.out.println("Skill: " + skill);
-                System.out.println("Importance: " + importance);
-
+            for (String skill : jobPostingDto.getSkills()) {
                 if (skill != null && !skill.trim().isEmpty()) {
                     Skill skillObject = skillService.findOrCreateSkill(skill.trim().toLowerCase());
 
                     JobSkill jobSkill = new JobSkill();
                     jobSkill.setJob(savedJob);
                     jobSkill.setSkill(skillObject);
-                    jobSkill.setImportance(importance);
 
                     jobSkillRepository.save(jobSkill);
                 }

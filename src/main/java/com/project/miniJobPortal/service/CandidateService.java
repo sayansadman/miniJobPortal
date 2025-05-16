@@ -28,7 +28,7 @@ public class CandidateService {
     }
 
     @Transactional
-    public Candidate registerCandidate(CandidateRegistrationDto candidateRegistrationDto) {
+    public void registerCandidate(CandidateRegistrationDto candidateRegistrationDto) {
 
         User user = new User();
         user.setName(candidateRegistrationDto.getName());
@@ -65,6 +65,5 @@ public class CandidateService {
             }
         }
 
-        return savedCandidate;
     }
 }
