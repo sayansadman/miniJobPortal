@@ -8,7 +8,6 @@ import com.project.miniJobPortal.entity.Skill;
 import com.project.miniJobPortal.repository.EmployerRepository;
 import com.project.miniJobPortal.repository.JobRepository;
 import com.project.miniJobPortal.repository.JobSkillRepository;
-import com.project.miniJobPortal.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

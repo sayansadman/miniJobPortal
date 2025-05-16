@@ -36,4 +36,9 @@ public class NavigationController {
         return "register";
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/home";
+    }
+
 }

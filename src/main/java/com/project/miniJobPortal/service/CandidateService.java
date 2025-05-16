@@ -7,12 +7,9 @@ import com.project.miniJobPortal.entity.Skill;
 import com.project.miniJobPortal.entity.User;
 import com.project.miniJobPortal.repository.CandidateRepository;
 import com.project.miniJobPortal.repository.CandidateSkillRepository;
-import com.project.miniJobPortal.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class CandidateService {

@@ -28,7 +28,8 @@ public class EmployerService {
         user.setEmail(employerRegistrationDto.getEmail());
         user.setType("employer");
 
-        User savedUser = userService.saveUser(user);
+        userService.saveUser(user);
+
         Employer employer = new Employer();
         employer.setUser(user);
         employer.setCompanyName(employerRegistrationDto.getCompanyName());
