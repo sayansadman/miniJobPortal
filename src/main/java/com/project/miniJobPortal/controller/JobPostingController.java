@@ -47,11 +47,4 @@ public class JobPostingController {
         }
     }
 
-    @GetMapping("/jobs-posted")
-    public String showPostedJobs(Model model) {
-        List<Job> jobs = jobService.getAllJobs();
-        model.addAttribute("jobs", jobs);
-        return "jobs-posted";
-    }
-
 }
