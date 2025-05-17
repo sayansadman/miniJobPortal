@@ -7,11 +7,15 @@ import com.project.miniJobPortal.repository.JobRepository;
 import com.project.miniJobPortal.service.JobService;
 import com.project.miniJobPortal.service.MatchingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +38,13 @@ public class MatchController {
     }
 
     @GetMapping
-    public String getAllJobsWithMatches(Model model) {
-        List<Job> jobs = jobService.getAllJobs();
+    public String getAllJobsWithMatches(
+            Model model,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Job> jobs = jobService.getPaginatedJobs(pageable);
         List<JobListingDto> jobListings = new ArrayList<>();
         Map<Long, Integer> candidateCounts = getCandidateCountsForJobs(jobs);
         
@@ -55,6 +64,10 @@ public class MatchController {
         }
         
         model.addAttribute("jobListings", jobListings);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", jobs.getTotalPages());
+        model.addAttribute("pageSize", size);
+
         return "job-matches";
     }
 
@@ -70,7 +83,7 @@ public class MatchController {
         return "job-match-detail";
     }
     
-    private Map<Long, Integer> getCandidateCountsForJobs(List<Job> jobs) {
+    private Map<Long, Integer> getCandidateCountsForJobs(Page<Job> jobs) {
         Map<Long, Integer> candidateCounts = new HashMap<>();
         
         for (Job job : jobs) {

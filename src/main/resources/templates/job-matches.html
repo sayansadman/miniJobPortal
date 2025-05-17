@@ -100,6 +100,29 @@
             align-items: center;
             margin-bottom: 20px;
         }
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pagination ul {
+            list-style: none;
+            padding: 0;
+        }
+        .pagination ul li {
+            display: inline;
+            margin: 0 5px;
+        }
+        .pagination ul li a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #007bff;
+        }
+        .pagination ul li a.active {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +160,7 @@
             <div class="match-info">
                 <div>
                     <span th:if="${jobListing.matchedCandidatesCount > 0}" class="candidate-count" 
-                        th:text="${jobListing.matchedCandidatesCount + ' matching candidate(s)'}"></span>
+                        th:text="${'Top matching candidate(s)'}"></span>
                     <span th:if="${jobListing.matchedCandidatesCount == 0}" class="candidate-count">No matching candidates yet</span>
                 </div>
                 <a th:if="${jobListing.matchedCandidatesCount > 0}" 
@@ -151,6 +174,23 @@
         <h3>No jobs have been posted yet.</h3>
         <p>Be the first to post a job by clicking the button above!</p>
     </div>
+
+    <div class="pagination" th:if="${totalPages > 1}">
+        <ul>
+            <li th:if="${currentPage > 0}">
+                <a th:href="@{/matches(page=${currentPage - 1}, size=${pageSize})}">Previous</a>
+            </li>
+            <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/matches(page=${i}, size=${pageSize})}"
+                   th:classappend="${i == currentPage} ? 'active' : ''"
+                   th:text="${i + 1}"></a>
+            </li>
+            <li th:if="${currentPage < totalPages - 1}">
+                <a th:href="@{/matches(page=${currentPage + 1}, size=${pageSize})}">Next</a>
+            </li>
+        </ul>
+    </div>
+
 </div>
 
 </body>

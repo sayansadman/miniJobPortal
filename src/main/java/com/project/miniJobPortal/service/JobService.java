@@ -9,6 +9,8 @@ import com.project.miniJobPortal.repository.EmployerRepository;
 import com.project.miniJobPortal.repository.JobRepository;
 import com.project.miniJobPortal.repository.JobSkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,10 @@ public class JobService {
 
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
+    }
+
+    public Page<Job> getPaginatedJobs(Pageable pageable) {
+        return jobRepository.findAll(pageable);
     }
 
     @Transactional
