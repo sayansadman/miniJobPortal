@@ -82,9 +82,6 @@
         .low-score {
             color: #f44336;
         }
-        .match-percentage {
-            font-weight: bold;
-        }
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -129,25 +126,24 @@
         <table class="candidate-table" th:if="${candidateMatches != null && !candidateMatches.empty}">
             <thead>
                 <tr>
-                    <th>Candidate</th>
+                    <th>Candidate Name</th>
+                    <th>Contact</th>
                     <th>Location</th>
                     <th>Experience</th>
                     <th>Skills Match</th>
-                    <th>Skill Score</th>
+                    <th>Proficiency Score</th>
                     <th>Location Bonus</th>
-                    <th>Experience Penalty</th>
+                    <th>Experience Points</th>
                     <th>Total Score</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="match : ${candidateMatches}">
                     <td th:text="${match.candidateName}"></td>
+                    <td th:text="${match.candidateEmail}"></td>
                     <td th:text="${match.candidateLocation}"></td>
                     <td th:text="${match.yearsOfExperience + ' year(s)'}"></td>
-                    <td>
-                        <span class="match-percentage" 
-                              th:text="${#numbers.formatDecimal(match.skillsMatchPercentage, 1, 1) + '%'}">
-                        </span>
+                    <td th:text="${match.matchingSkillsCount + ' out of ' + job.jobSkills.size() + ' skills matched'}">
                     </td>
                     <td th:text="${#numbers.formatDecimal(match.skillScore, 1, 1)}"></td>
                     <td th:text="${'+' + match.locationBonus}"></td>

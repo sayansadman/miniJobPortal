@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class CandidateMatchDto {
     private Long candidateId;
     private String candidateName;
+    private String candidateEmail;
     private String candidateLocation;
     private Integer yearsOfExperience;
     private Integer matchingSkillsCount;
