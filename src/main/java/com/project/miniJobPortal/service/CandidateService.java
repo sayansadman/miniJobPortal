@@ -27,6 +27,10 @@ public class CandidateService {
         this.skillService = skillService;
     }
 
+    public int getCandidateCount() {
+        return (int) candidateRepository.count();
+    }
+
     @Transactional
     public void registerCandidate(CandidateRegistrationDto candidateRegistrationDto) {
 

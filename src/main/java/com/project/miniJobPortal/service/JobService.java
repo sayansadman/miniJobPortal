@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -34,12 +35,12 @@ public class JobService {
         this.skillService = skillService;
     }
 
-    public List<Job> getAllJobs() {
-        return jobRepository.findAll();
-    }
-
     public Page<Job> getPaginatedJobs(Pageable pageable) {
         return jobRepository.findAll(pageable);
+    }
+
+    public int getJobCount() {
+        return (int) jobRepository.count();
     }
 
     @Transactional
@@ -53,12 +54,15 @@ public class JobService {
         }
 
         Employer employer = employerOptional.get();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.MILLISECOND, 0);
 
         Job job = new Job();
         job.setTitle(jobPostingDto.getTitle());
         job.setLocation(jobPostingDto.getLocation());
         job.setMinExperience(jobPostingDto.getMinExperience());
-        job.setCreatedAt(new Date());
+        job.setCreatedAt(calendar.getTime());
         job.setEmployer(employer);
 
         Job savedJob = jobRepository.save(job);
