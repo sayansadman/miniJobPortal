@@ -160,7 +160,7 @@
             <div class="match-info">
                 <div>
                     <span th:if="${jobListing.matchedCandidatesCount > 0}" class="candidate-count" 
-                        th:text="${'Top matching candidate(s)'}"></span>
+                        th:text="${jobListing.matchedCandidatesCount + ' candidate(s) matched!'}"></span>
                     <span th:if="${jobListing.matchedCandidatesCount == 0}" class="candidate-count">No matching candidates yet</span>
                 </div>
                 <a th:if="${jobListing.matchedCandidatesCount > 0}" 
