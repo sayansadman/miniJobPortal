@@ -3,12 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <style>
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .stat-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            background-color: #f9f9f9;
+        }
+        .stat-card h2 {
+            margin: 0;
+            font-size: 36px;
+            color: #333;
+        }
+        .stat-card p {
+            margin: 5px 0 0;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <h1>Welcome to MiniJob Portal</h1>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h2 th:text="${jobCount}">0</h2>
+        <p>Jobs Posted</p>
+    </div>
+    <div class="stat-card">
+        <h2 th:text="${candidateCount}">0</h2>
+        <p>Candidates Registered</p>
+    </div>
+</div>
 
 </body>
 </html>
